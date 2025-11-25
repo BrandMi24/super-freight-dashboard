@@ -1,36 +1,133 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Super Freight Tracker · Dashboard (Next.js)
 
-## Getting Started
+Frontend de **Super Freight Tracker** construido con **Next.js + Tailwind + shadcn/ui**, que permite:
 
-First, run the development server:
+- Visualizar trackings de barcos almacenados en MongoDB (vía API backend).
+- Filtrar por estado, bandera, destino y texto.
+- Ver un mini dashboard de distribución por estado.
+- Abrir un modal con detalles de cada barco + historial AIS.
+- Ver un mapa con los barcos (Leaflet + OpenStreetMap).
+- Ejecutar demos de scraping desde la UI.
+- Footer con nombre del desarrollador + LinkedIn/GitHub.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+---
+
+## 🧱 Tech stack
+
+- **Next.js 14+** (App Router)
+- **TypeScript**
+- **Tailwind CSS**
+- **shadcn/ui**
+- **React Leaflet** + **Leaflet**
+- Client components conectados al backend API
+
+---
+
+## ⚙️ Variables de entorno
+
+### `.env.local`
+```
+NEXT_PUBLIC_API_URL=http://localhost:3000/api
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### `.env.docker`
+```
+NEXT_PUBLIC_API_URL=http://api:3000/api
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🚀 Correr en local
 
-## Learn More
+Instalar dependencias:
+```
+npm install
+```
 
-To learn more about Next.js, take a look at the following resources:
+Crear `.env.local`:
+```
+NEXT_PUBLIC_API_URL=http://localhost:3000/api
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Levantar dev server:
+```
+npm run dev
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Dashboard:
+http://localhost:3000
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 🧩 Componentes principales
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### app/page.tsx
+Server fetch a:
+```
+GET /tracking
+```
+
+Renderiza header, ScraperDemos, TrackingMap, TrackingTable y footer.
+
+### components/tracking-table.tsx
+Tabla con filtros:
+- Estado
+- Bandera
+- Destino
+- Buscador por texto
+
+Incluye:
+- Dashboard de estados
+- Modal por barco
+- Llamada a:
+```
+GET /tracking/history/:imo?limit=15
+```
+
+### components/tracking-map.tsx
+Mapa con React Leaflet:
+- Markers por barco
+- Popup con info
+- Cálculo de centro automático
+
+### components/scraper-demos.tsx
+Botones:
+```
+GET /scrape/demo-static
+GET /scrape/demo-dynamic
+```
+
+Muestra JSON en `<pre>`.
+
+### Footer
+Incluye nombre del desarrollador y enlaces a LinkedIn/GitHub.
+
+---
+
+## 🐳 Docker
+
+Build:
+```
+docker build -t freight-dashboard .
+```
+
+Run:
+```
+docker run --env-file .env.docker -p 3001:3000 freight-dashboard
+```
+
+Dashboard:
+http://localhost:3001
+
+---
+
+## 🔗 Integración API
+
+El dashboard consume:
+
+```
+GET {API}/tracking
+GET {API}/tracking/history/:imo
+GET {API}/scrape/demo-static
+GET {API}/scrape/demo-dynamic
+```
