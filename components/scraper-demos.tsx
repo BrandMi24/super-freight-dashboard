@@ -19,11 +19,17 @@ export function ScraperDemos() {
   const [authResult, setAuthResult] = useState<DemoResult | null>(null);
   const [xmlResult, setXmlResult] = useState<DemoResult | null>(null);
 
-  // 👇 ESTE COMPONENTE CORRE EN EL NAVEGADOR
-  // así que apuntamos al API con localhost:3000 (el puerto publicado del host)
+  const [loadingStatic, setLoadingStatic] = useState(false);
+  const [loadingDynamic, setLoadingDynamic] = useState(false);
+  const [loadingAuth, setLoadingAuth] = useState(false);
+  const [loadingXml, setLoadingXml] = useState(false);
+
+  // Corre en el navegador → API pública en Render
   const API = "https://super-freight-tracker-api.onrender.com/api";
 
   const runStatic = async () => {
+    setLoadingStatic(true);
+    setStaticResult(null);
     try {
       const res = await fetch(`${API}/scrape/demo-static`);
       const json = await res.json();
@@ -33,10 +39,14 @@ export function ScraperDemos() {
         ok: false,
         error: err?.message || "Error desconocido",
       });
+    } finally {
+      setLoadingStatic(false);
     }
   };
 
   const runDynamic = async () => {
+    setLoadingDynamic(true);
+    setDynamicResult(null);
     try {
       const res = await fetch(`${API}/scrape/demo-dynamic`);
       const json = await res.json();
@@ -46,10 +56,14 @@ export function ScraperDemos() {
         ok: false,
         error: err?.message || "Error desconocido",
       });
+    } finally {
+      setLoadingDynamic(false);
     }
   };
 
   const runAuth = async () => {
+    setLoadingAuth(true);
+    setAuthResult(null);
     try {
       const res = await fetch(`${API}/scrape/demo-auth`);
       const json = await res.json();
@@ -59,10 +73,14 @@ export function ScraperDemos() {
         ok: false,
         error: err?.message || "Error desconocido",
       });
+    } finally {
+      setLoadingAuth(false);
     }
   };
 
   const runXml = async () => {
+    setLoadingXml(true);
+    setXmlResult(null);
     try {
       const res = await fetch(`${API}/xml/demo`);
       const json = await res.json();
@@ -72,6 +90,8 @@ export function ScraperDemos() {
         ok: false,
         error: err?.message || "Error desconocido",
       });
+    } finally {
+      setLoadingXml(false);
     }
   };
 
@@ -87,17 +107,40 @@ export function ScraperDemos() {
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
-          <Button size="sm" onClick={runStatic}>
-            Demo Cheerio (estático)
+          <Button
+            size="sm"
+            variant="outline"
+            onClick={runStatic}
+            disabled={loadingStatic}
+          >
+            {loadingStatic ? "Cargando..." : "Demo Cheerio (estático)"}
           </Button>
-          <Button size="sm" variant="outline" onClick={runDynamic}>
-            Demo Playwright (dinámico)
+
+          <Button
+            size="sm"
+            variant="outline"
+            onClick={runDynamic}
+            disabled={loadingDynamic}
+          >
+            {loadingDynamic ? "Cargando..." : "Demo Playwright (dinámico)"}
           </Button>
-          <Button size="sm" variant="outline" onClick={runAuth}>
-            Demo login (auth)
+
+          <Button
+            size="sm"
+            variant="outline"
+            onClick={runAuth}
+            disabled={loadingAuth}
+          >
+            {loadingAuth ? "Cargando..." : "Demo login (auth)"}
           </Button>
-          <Button size="sm" variant="outline" onClick={runXml}>
-            Demo XML
+
+          <Button
+            size="sm"
+            variant="outline"
+            onClick={runXml}
+            disabled={loadingXml}
+          >
+            {loadingXml ? "Cargando..." : "Demo XML"}
           </Button>
         </div>
       </div>
@@ -109,7 +152,9 @@ export function ScraperDemos() {
             Resultado demo estático (Cheerio)
           </p>
           <pre className="bg-slate-950/80 border border-slate-800 rounded-md p-2 overflow-x-auto">
-            {staticResult
+            {loadingStatic
+              ? "Cargando datos del scraper estático..."
+              : staticResult
               ? JSON.stringify(staticResult, null, 2)
               : "Sin ejecutar"}
           </pre>
@@ -120,7 +165,9 @@ export function ScraperDemos() {
             Resultado demo dinámico (Playwright)
           </p>
           <pre className="bg-slate-950/80 border border-slate-800 rounded-md p-2 overflow-x-auto">
-            {dynamicResult
+            {loadingDynamic
+              ? "Cargando datos del scraper dinámico..."
+              : dynamicResult
               ? JSON.stringify(dynamicResult, null, 2)
               : "Sin ejecutar"}
           </pre>
@@ -131,7 +178,9 @@ export function ScraperDemos() {
             Resultado demo login autenticado
           </p>
           <pre className="bg-slate-950/80 border border-slate-800 rounded-md p-2 overflow-x-auto">
-            {authResult
+            {loadingAuth
+              ? "Iniciando sesión y cargando zona protegida..."
+              : authResult
               ? JSON.stringify(authResult, null, 2)
               : "Sin ejecutar"}
           </pre>
@@ -142,7 +191,11 @@ export function ScraperDemos() {
             Resultado demo XML
           </p>
           <pre className="bg-slate-950/80 border border-slate-800 rounded-md p-2 overflow-x-auto">
-            {xmlResult ? JSON.stringify(xmlResult, null, 2) : "Sin ejecutar"}
+            {loadingXml
+              ? "Cargando y parseando XML..."
+              : xmlResult
+              ? JSON.stringify(xmlResult, null, 2)
+              : "Sin ejecutar"}
           </pre>
         </div>
       </div>
