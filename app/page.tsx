@@ -71,8 +71,8 @@ export default async function HomePage() {
           <div className="flex items-center justify-center gap-5">
             {/* GitHub con modal */}
             <GithubModal
-              appUrl="https://github.com/TU_USUARIO/super-freight-tracker-app"
-              apiUrl="https://github.com/TU_USUARIO/super-freight-tracker-api"
+              appUrl="https://github.com/BrandMi24/super-freight-dashboard.git"
+              apiUrl="https://github.com/BrandMi24/super-freight-tracker-api.git"
             />
 
             {/* LinkedIn */}
