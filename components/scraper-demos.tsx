@@ -21,7 +21,7 @@ export function ScraperDemos() {
 
   // 👇 ESTE COMPONENTE CORRE EN EL NAVEGADOR
   // así que apuntamos al API con localhost:3000 (el puerto publicado del host)
-  const API = "http://localhost:3000/api";
+  const API = "https://super-freight-tracker-api.onrender.com/api";
 
   const runStatic = async () => {
     try {
