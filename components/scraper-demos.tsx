@@ -24,7 +24,7 @@ export function ScraperDemos() {
   const [loadingAuth, setLoadingAuth] = useState(false);
   const [loadingXml, setLoadingXml] = useState(false);
 
-  // Corre en el navegador → API pública en Render
+  // API pública en Render
   const API = "https://super-freight-tracker-api.onrender.com/api";
 
   const runStatic = async () => {
@@ -107,51 +107,30 @@ export function ScraperDemos() {
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
-          <Button
-            size="sm"
-            variant="outline"
-            onClick={runStatic}
-            disabled={loadingStatic}
-          >
+          <Button size="sm" variant="outline" onClick={runStatic} disabled={loadingStatic}>
             {loadingStatic ? "Cargando..." : "Demo Cheerio (estático)"}
           </Button>
 
-          <Button
-            size="sm"
-            variant="outline"
-            onClick={runDynamic}
-            disabled={loadingDynamic}
-          >
+          <Button size="sm" variant="outline" onClick={runDynamic} disabled={loadingDynamic}>
             {loadingDynamic ? "Cargando..." : "Demo Playwright (dinámico)"}
           </Button>
 
-          <Button
-            size="sm"
-            variant="outline"
-            onClick={runAuth}
-            disabled={loadingAuth}
-          >
+          <Button size="sm" variant="outline" onClick={runAuth} disabled={loadingAuth}>
             {loadingAuth ? "Cargando..." : "Demo login (auth)"}
           </Button>
 
-          <Button
-            size="sm"
-            variant="outline"
-            onClick={runXml}
-            disabled={loadingXml}
-          >
+          <Button size="sm" variant="outline" onClick={runXml} disabled={loadingXml}>
             {loadingXml ? "Cargando..." : "Demo XML"}
           </Button>
         </div>
       </div>
 
       {/* Resultados */}
-      <div className="grid gap-4 md:grid-cols-2 text-xs">
+      <div className="grid gap-4 md:grid-cols-2 text-[11px] md:text-xs">
+
         <div>
-          <p className="font-medium mb-1 text-slate-300">
-            Resultado demo estático (Cheerio)
-          </p>
-          <pre className="bg-slate-950/80 border border-slate-800 rounded-md p-2 overflow-x-auto">
+          <p className="font-medium mb-1 text-slate-300">Resultado demo estático (Cheerio)</p>
+          <pre className="bg-slate-950/80 border border-slate-800 rounded-md p-2 text-[10px] md:text-xs leading-tight whitespace-pre-wrap wrap-break-word max-h-64 overflow-auto">
             {loadingStatic
               ? "Cargando datos del scraper estático..."
               : staticResult
@@ -161,10 +140,8 @@ export function ScraperDemos() {
         </div>
 
         <div>
-          <p className="font-medium mb-1 text-slate-300">
-            Resultado demo dinámico (Playwright)
-          </p>
-          <pre className="bg-slate-950/80 border border-slate-800 rounded-md p-2 overflow-x-auto">
+          <p className="font-medium mb-1 text-slate-300">Resultado demo dinámico (Playwright)</p>
+          <pre className="bg-slate-950/80 border border-slate-800 rounded-md p-2 text-[10px] md:text-xs leading-tight whitespace-pre-wrap wrap-break-word max-h-64 overflow-auto">
             {loadingDynamic
               ? "Cargando datos del scraper dinámico..."
               : dynamicResult
@@ -174,10 +151,8 @@ export function ScraperDemos() {
         </div>
 
         <div>
-          <p className="font-medium mb-1 text-slate-300">
-            Resultado demo login autenticado
-          </p>
-          <pre className="bg-slate-950/80 border border-slate-800 rounded-md p-2 overflow-x-auto">
+          <p className="font-medium mb-1 text-slate-300">Resultado demo login autenticado</p>
+          <pre className="bg-slate-950/80 border border-slate-800 rounded-md p-2 text-[10px] md:text-xs leading-tight whitespace-pre-wrap wrap-break-word max-h-64 overflow-auto">
             {loadingAuth
               ? "Iniciando sesión y cargando zona protegida..."
               : authResult
@@ -187,10 +162,8 @@ export function ScraperDemos() {
         </div>
 
         <div>
-          <p className="font-medium mb-1 text-slate-300">
-            Resultado demo XML
-          </p>
-          <pre className="bg-slate-950/80 border border-slate-800 rounded-md p-2 overflow-x-auto">
+          <p className="font-medium mb-1 text-slate-300">Resultado demo XML</p>
+          <pre className="bg-slate-950/80 border border-slate-800 rounded-md p-2 text-[10px] md:text-xs leading-tight whitespace-pre-wrap wrap-break-word max-h-64 overflow-auto">
             {loadingXml
               ? "Cargando y parseando XML..."
               : xmlResult
