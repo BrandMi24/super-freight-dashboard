@@ -174,7 +174,7 @@ export function TrackingTable({ items }: Props) {
   // 👇 estados NUEVOS para historial AIS
   const [history, setHistory] = useState<Tracking[] | null>(null);
   const [loadingHistory, setLoadingHistory] = useState(false);
-  const API = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3000/api";
+  const API = process.env.NEXT_PUBLIC_API_URL ?? "https://super-freight-tracker-api.onrender.com/api";
 
   // 🔹 opciones únicas de bandera y destino generadas desde los datos
   const { flagOptions, destinationOptions } = useMemo(() => {
